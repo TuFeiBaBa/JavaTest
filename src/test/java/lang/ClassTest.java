@@ -3,6 +3,7 @@ package lang;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,14 @@ import static org.junit.Assert.assertEquals;
 
 public final class ClassTest {
 
-    static class ExampleTestForName {
+    static class Example {
+
+        public Example() {
+        }
+
+        public Example(String name) {
+        }
+
         static {
             System.out.println("Initialization successful!");
         }
@@ -45,7 +53,7 @@ public final class ClassTest {
      * 如果此对象表示一个类/接口，则该数组包含对象代表类/接口（实现/扩展）的所有接口。
      * 数组中的接口对象的顺序对应于接口声明的顺序。
      * <p>
-     * 如果此对象是类/接口，没有实现/扩展接口，如果此对象是基本类型或Void，就返回一个空数组（不是null，注意）。
+     * 如果此对象代表类/接口，没有实现/扩展接口，如果此对象是基本类型或Void，就返回一个空数组（不是null，注意）。
      * <p>
      * 如果此对象代表一个数组类型，Cloneable和java.io.Serializable接口将会被返回。
      */
@@ -97,6 +105,20 @@ public final class ClassTest {
     @Test
     public void testForNameForInitialization() throws ClassNotFoundException {
         //如果是嵌套类或内部类的完全限定名称，要用到$
-        Class.forName("lang.ClassTest$ExampleTestForName");
+        Class.forName("lang.ClassTest$Example");
+    }
+
+    /**
+     * Method[] getDeclaredMethods()
+     * <p>
+     * 1.会返回类/接口的非构造函数的方法，包括private方法、静态方法
+     * 2.如果此Class对象没有实现任何方法的类/接口，会返回一个空数组
+     * 3.如果此Class对象是一个数组，基本类型或者void，会返回一个空数组
+     * 4.注意：返回数组里的元素排序不固定，每次调用获得的排序结果可能都不一样
+     */
+    @Test
+    public void testGetDeclaredMethods() {
+        Method[] methods = Example.class.getDeclaredMethods();
+        assertEquals(methods.length, 0);
     }
 }
