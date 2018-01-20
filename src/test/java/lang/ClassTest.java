@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.RandomAccess;
 
 import static org.junit.Assert.assertEquals;
+import static util.Print.print;
 
 /**
  * @author tufei
@@ -28,7 +29,7 @@ public final class ClassTest {
         }
 
         static {
-            System.out.println("Initialization successful!");
+            print("Initialization successful!");
         }
     }
 
