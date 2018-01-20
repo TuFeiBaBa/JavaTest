@@ -1,0 +1,21 @@
+group 'com.tufei.javatest'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+// Dependency versions
+// ---------------------------------------
+
+def junitVersion = "4.12"
+
+// --------------------------------------
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "junit:junit:$junitVersion"
+}
