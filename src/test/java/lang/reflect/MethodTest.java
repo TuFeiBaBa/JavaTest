@@ -22,10 +22,11 @@ import static util.Print.print;
 public class MethodTest {
 
     /**
-     * Class<?> getReturnType()与Type getGenericReturnType()
+     * {@link Method#getReturnType()} 与 {@link Method#getGenericReturnType()}
      * <p>
-     * getGenericReturnType是基于getReturnType()方法的，
-     * 它能获取到返回参数是泛型的方法的具体返回类型，平时用它就好
+     * getReturnType返回的是Class<?>。
+     * getGenericReturnType返回的是{@link Type},{@link Class}只是它的实现类。
+     * 注：关于Type，可以参考{@link MethodTest#testTypeStyle()}的相关说明，及测试。
      */
     @Test
     public void testGetReturnTypeAndGenericReturnType() {
@@ -69,11 +70,18 @@ public class MethodTest {
     }
 
     /**
+     * {@link Type}
+     * <p>
      * Type的直接子接口
-     * 1.ParameterizedType： 表示一种参数化的类型，比如Collection，即普通的泛型。
-     * 2.TypeVariable：是各种类型变量的公共父接口，就是泛型里面的类似T、E。
-     * 3.GenericArrayType：表示一种元素类型是参数化类型或者类型变量的数组类型，比如List<>[]，T[]这种。
-     * 4.WildcardType：代表一种通配符类型表达式，类似? super T这样的通配符表达式。
+     * 1.{@link ParameterizedType}： 表示一种参数化的类型，比如Collection，即普通的泛型。
+     * 2.{@link TypeVariable}：是各种类型变量的公共父接口，就是泛型里面的类似T、E。
+     * 3.{@link GenericArrayType}：表示一种元素类型是参数化类型或者类型变量的数组类型，比如List<>[]，T[]这种。
+     * 4.{@link WildcardType}：代表一种通配符类型表达式，类似? super T这样的通配符表达式。
+     * <p>
+     * Type的实现类
+     * {@link Class}
+     *
+     * @see <a href="http://loveshisong.cn/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF/2016-02-16-Type%E8%AF%A6%E8%A7%A3.html"></a>
      */
     @Test
     public void testTypeStyle() {
