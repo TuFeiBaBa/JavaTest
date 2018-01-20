@@ -18,6 +18,27 @@ import static org.junit.Assert.assertEquals;
 
 public final class ClassTest {
 
+    static class ExampleTestForName {
+        static {
+            System.out.println("Initialization successful!");
+        }
+    }
+
+    /**
+     * native boolean isInterface()
+     * <p>
+     * native关键字：Native Method就是一个java调用非java代码的接口。在定义一个native method时，
+     * 并不提供实现体（有些像定义一个java interface），因为其实现体是由非java语言在外面实现的。
+     * native可以与所有其它的java标识符连用，但是abstract除外。这是合理的，因为native暗示这些
+     * 方法是有实现体的，只不过这些实现体是非java的。
+     */
+    @Test
+    public void testIsInterface() {
+        assertEquals(false, Object.class.isInterface());
+
+        assertEquals(true, List.class.isInterface());
+    }
+
     /**
      * Class<?>[] getInterfaces()
      * <p>
@@ -29,7 +50,7 @@ public final class ClassTest {
      * 如果此对象代表一个数组类型，Cloneable和java.io.Serializable接口将会被返回。
      */
     @Test
-    public void getInterfaces() {
+    public void testGetInterfaces() {
         Class<?>[] arrayListInterfaces = ArrayList.class.getInterfaces();
         assertEquals(arrayListInterfaces.length, 4);
         assertEquals(arrayListInterfaces[0], List.class);
@@ -63,5 +84,19 @@ public final class ClassTest {
         assertEquals(objectIntInterfaces.length, 2);
         assertEquals(objectIntInterfaces[0], Cloneable.class);
         assertEquals(objectIntInterfaces[1], Serializable.class);
+    }
+
+    /**
+     * static Class<?> forName(String className)
+     * 注意，参数必须是所需类的完全限定名称。
+     * <p>
+     * 主要功能：
+     * 1.返回一个指定的类或接口的Class实例
+     * 2.要求JVM查找并加载指定的类,执行静态初始化
+     */
+    @Test
+    public void testForNameForInitialization() throws ClassNotFoundException {
+        //如果是嵌套类或内部类的完全限定名称，要用到$
+        Class.forName("lang.ClassTest$ExampleTestForName");
     }
 }
