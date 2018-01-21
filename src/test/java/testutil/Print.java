@@ -1,4 +1,4 @@
-package util;
+package testutil;
 
 import java.io.PrintStream;
 
@@ -8,17 +8,17 @@ import java.io.PrintStream;
  */
 
 public class Print {
-    // util.Print with a newline:
+    // testutil.Print with a newline:
     public static void print(Object obj) {
         System.out.println(obj);
     }
 
-    // util.Print a newline by itself:
+    // testutil.Print a newline by itself:
     public static void print() {
         System.out.println();
     }
 
-    // util.Print with no line break:
+    // testutil.Print with no line break:
     public static void printnb(Object obj) {
         System.out.print(obj);
     }

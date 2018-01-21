@@ -12,7 +12,7 @@ import java.util.RandomAccess;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static util.Print.print;
+import static testutil.Print.print;
 
 /**
  * @author tufei
