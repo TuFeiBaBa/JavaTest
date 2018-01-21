@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.RandomAccess;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static util.Print.print;
 
 /**
@@ -21,13 +22,8 @@ import static util.Print.print;
 public final class ClassTest {
 
     static class Example {
-
-        public Example() {
-        }
-
-        public Example(String name) {
-        }
-
+        public Example() {}
+        public Example(String name) {}
         static {
             print("Initialization successful!");
         }
@@ -61,39 +57,39 @@ public final class ClassTest {
     @Test
     public void testGetInterfaces() {
         Class<?>[] arrayListInterfaces = ArrayList.class.getInterfaces();
-        assertEquals(arrayListInterfaces.length, 4);
-        assertEquals(arrayListInterfaces[0], List.class);
-        assertEquals(arrayListInterfaces[1], RandomAccess.class);
+        assertEquals(4, arrayListInterfaces.length);
+        assertEquals(List.class, arrayListInterfaces[0]);
+        assertEquals(RandomAccess.class, arrayListInterfaces[1]);
 
         Class<?>[] listInterfaces = List.class.getInterfaces();
-        assertEquals(listInterfaces.length, 1);
-        assertEquals(listInterfaces[0], Collection.class);
+        assertEquals(1, listInterfaces.length);
+        assertEquals(Collection.class, listInterfaces[0]);
 
         Class<?>[] objectInterfaces = Object.class.getInterfaces();
-        assertEquals(objectInterfaces.length, 0);
+        assertEquals(0, objectInterfaces.length);
         Class<?>[] mapInterfaces = Map.class.getInterfaces();
-        assertEquals(mapInterfaces.length, 0);
+        assertEquals(0, mapInterfaces.length);
 
         Class<?>[] integerInterfaces = Integer.class.getInterfaces();
-        assertEquals(integerInterfaces.length, 1);
-        assertEquals(integerInterfaces[0], Comparable.class);
+        assertEquals(1, integerInterfaces.length);
+        assertEquals(Comparable.class, integerInterfaces[0]);
 
         Class<?>[] intInterfaces = int.class.getInterfaces();
-        assertEquals(intInterfaces.length, 0);
+        assertEquals(0, intInterfaces.length);
 
         //或者void.class，似乎没区别
         Class<?>[] voidInterfacees = Void.class.getInterfaces();
-        assertEquals(voidInterfacees.length, 0);
+        assertEquals(0, voidInterfacees.length);
 
         Class<?>[] arrayIntInterfaces = int[].class.getInterfaces();
-        assertEquals(arrayIntInterfaces.length, 2);
-        assertEquals(arrayIntInterfaces[0], Cloneable.class);
-        assertEquals(arrayIntInterfaces[1], Serializable.class);
+        assertEquals(2, arrayIntInterfaces.length);
+        assertEquals(Cloneable.class, arrayIntInterfaces[0]);
+        assertEquals(Serializable.class, arrayIntInterfaces[1]);
 
         Class<?>[] objectIntInterfaces = Object[].class.getInterfaces();
-        assertEquals(objectIntInterfaces.length, 2);
-        assertEquals(objectIntInterfaces[0], Cloneable.class);
-        assertEquals(objectIntInterfaces[1], Serializable.class);
+        assertEquals(2, objectIntInterfaces.length);
+        assertEquals(Cloneable.class, objectIntInterfaces[0]);
+        assertEquals(Serializable.class, objectIntInterfaces[1]);
     }
 
     /**
@@ -116,11 +112,51 @@ public final class ClassTest {
      * 1.会返回类/接口的非构造函数的方法，包括private方法、静态方法
      * 2.如果此Class对象没有实现任何方法的类/接口，会返回一个空数组
      * 3.如果此Class对象是一个数组，基本类型或者void，会返回一个空数组
-     * 4.注意：返回数组里的元素排序不固定，每次调用获得的排序结果可能都不一样
+     *
+     * 注意：返回数组里的元素排序不固定，每次调用获得的排序结果可能都不一样
      */
     @Test
     public void testGetDeclaredMethods() {
         Method[] methods = Example.class.getDeclaredMethods();
-        assertEquals(methods.length, 0);
+        assertEquals(0, methods.length);
+    }
+
+    /**
+     * 和getDeclaredMethods()不同，getMethods返回某个类的所有public
+     * 方法包括其继承类的public方法(包括其继承类的继承类的继承类...)，当然也包括它所实现接口的方法。
+     * <p>
+     * 注意：
+     * 1.getMethods不会返回除public以外的方法
+     * 2.getDeclaredMethods()不会返回其继承类的任何方法
+     */
+    @Test
+    public void testGetDeclaredMethodsAndGetMethods() {
+        class Dad {
+            protected void protectedDadMethod() {}
+            public void publicDadMethod() {}
+        }
+
+        class Example extends Dad {
+            private void privateMethod() {}
+            public void publicMethod() {}
+        }
+
+        Method[] methods = Example.class.getMethods();
+        //虽然源码注释说，获取到的methods没有固定的排序，但打印结果似乎不是，排序固定
+        for(Method method:methods){
+            print(method);
+        }
+        print("---------------------------------------------------");
+        Method[] declaredMethods = Example.class.getDeclaredMethods();
+        for (Method method:declaredMethods){
+            print(method);
+        }
+
+        //注意，getMethods获取到的methods,由于可能是其父类的方法，所以可能导致下面这种情况
+        Method method0 = Example.class.getMethods()[0];
+        assertEquals(Example.class.getSimpleName(),method0.getDeclaringClass().getSimpleName());
+        Method method1 = Example.class.getMethods()[1];
+        assertNotEquals(Example.class.getSimpleName(),method1.getDeclaringClass().getSimpleName());
+        assertEquals(Dad.class.getSimpleName(),method1.getDeclaringClass().getSimpleName());
     }
 }
