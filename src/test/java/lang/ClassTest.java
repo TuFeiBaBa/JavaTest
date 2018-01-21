@@ -81,6 +81,7 @@ public final class ClassTest {
         Class<?>[] intInterfaces = int.class.getInterfaces();
         assertEquals(intInterfaces.length, 0);
 
+        //或者void.class，似乎没区别
         Class<?>[] voidInterfacees = Void.class.getInterfaces();
         assertEquals(voidInterfacees.length, 0);
 
