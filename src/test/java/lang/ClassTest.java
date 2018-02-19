@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.RandomAccess;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static testutil.Print.print;
 
 /**
@@ -158,5 +160,42 @@ public final class ClassTest {
         Method method1 = Example.class.getMethods()[1];
         assertNotEquals(Example.class.getSimpleName(),method1.getDeclaringClass().getSimpleName());
         assertEquals(Dad.class.getSimpleName(),method1.getDeclaringClass().getSimpleName());
+    }
+
+
+    interface Base{}
+    interface Derive extends Base{}
+    class Dad implements Base{}
+    class Son extends Dad implements Derive{}
+    /**
+     * boolean isAssignableFrom(Class<?> cls)
+     * <p>
+     * 如果该Class代表该类或接口，如果传入的参数class，是它们自身或者它们的
+     * 子类(或者接口的实现类)、子接口，就返回true
+     * 如果该Class代表基本类型，如果传入的参数class，是它们自身就返回true
+     * 否则返回false
+     * 如果传入的参数是null，抛空指针异常。
+     */
+    @Test
+    public void testIsAssignableFrom(){
+        assertTrue(Dad.class.isAssignableFrom(Dad.class));
+        assertTrue(Dad.class.isAssignableFrom(Son.class));
+        assertFalse(Dad.class.isAssignableFrom(Base.class));
+        assertFalse(Son.class.isAssignableFrom(Dad.class));
+
+        assertTrue(Base.class.isAssignableFrom(Derive.class));
+        assertTrue(Base.class.isAssignableFrom(Dad.class));
+        assertTrue(Base.class.isAssignableFrom(Son.class));
+        assertTrue(Derive.class.isAssignableFrom(Son.class));
+        assertFalse(Derive.class.isAssignableFrom(Base.class));
+
+        assertTrue(int.class.isAssignableFrom(int.class));
+        assertFalse(double.class.isAssignableFrom(int.class));
+
+        try {
+            assertTrue(Dad.class.isAssignableFrom(null));
+        }catch (Exception e){
+            assertEquals(NullPointerException.class,e.getClass());
+        }
     }
 }
