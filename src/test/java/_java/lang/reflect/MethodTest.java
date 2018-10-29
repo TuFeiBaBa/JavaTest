@@ -1,4 +1,4 @@
-package lang.reflect;
+package _java.lang.reflect;
 
 import org.junit.Test;
 
@@ -53,8 +53,8 @@ public class MethodTest {
         }
         /*Output(输出结果其实是不固定的  我自己手动排序了)
         int
-        interface java.util.List
-        class java.lang.Object
+        interface java._java.util.List
+        class java._java.lang.Object
         void
          */
         Method[] declaredMethods = Example.class.getDeclaredMethods();
@@ -63,7 +63,7 @@ public class MethodTest {
         }
         /*Output
         int
-        java.util.List<java.lang.String>
+        java._java.util.List<java._java.lang.String>
         T
         void
         */

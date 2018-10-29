@@ -1,4 +1,4 @@
-package lang;
+package _java.lang;
 
 import org.junit.Test;
 
@@ -105,7 +105,7 @@ public final class ClassTest {
     @Test
     public void testForNameForInitialization() throws ClassNotFoundException {
         //如果是嵌套类或内部类的完全限定名称，要用到$
-        Class.forName("lang.ClassTest$Example");
+        Class.forName("_java.lang.ClassTest$Example");
     }
 
     /**

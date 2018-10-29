@@ -1,4 +1,4 @@
-package util;
+package _java.util;
 
 import org.junit.Test;
 
